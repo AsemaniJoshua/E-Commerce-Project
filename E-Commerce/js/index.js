@@ -122,6 +122,57 @@ function addToCartEventListeners() {
     });
 }
 
+
+
+
+
+
+
+
+// Function to handle the search functionality
+function handleSearch() {
+    const searchInput = document.getElementById("search_bar");
+    const searchBtn = document.getElementById("search_btn");
+    const productContainer = document.getElementById("productContainer");
+
+    searchBtn.addEventListener("click", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm));
+        productContainer.innerHTML = "";
+        
+        // checking if filteredProducts is empty
+        if (filteredProducts.length === 0) {
+            productContainer.innerHTML = "<p style='margin: auto; font-size: 24px; font-weight: bold;'>No products found.</p>";
+        } else {
+            filteredProducts.forEach(product => {
+                productContainer.innerHTML += `
+                    <div class="card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="cart_item_details">
+                            <h3>${product.name}</h3>
+                            <p>Price: $${product.price}</p>
+                        </div>
+                        <div>
+                            <button class="viewDetailsBtn" id="ViewProduct${product.id}">View Details</button>
+                            <button class="addToCartBtn" id="AddProduct${product.id}">Add to Cart</button>                            
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        attachEventListenersForViewDetails();
+        // Functionality for close button
+        document.addEventListener("click", (event) => {
+        if (event.target && event.target.id === "closeBtn") {
+            const viewDetailsSection = document.getElementById("viewDetailsSection");
+            viewDetailsSection.style.display = "none";
+        }
+});
+    });
+}
+
+
 // Page load logic
 async function waitingForBrowser() {
     await new Promise(resolve => {
@@ -136,6 +187,7 @@ waitingForBrowser().then(() => {
     attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
     addToCartEventListeners();
     updateCartCount(); // Update cart count display when page loads
+    handleSearch();
 });
 
 // Importing Products from product.js

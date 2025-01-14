@@ -8,24 +8,17 @@ body{
     text-align: center; 
 }
 
-main{
-    display: flex;
-    position: absolute;
-    top: 15%;
-}
-
-#cart_container{
-    width: 70%;
-    margin-top: 200px;
-    display: flex;
-}
-
-#displayTotal h2{
+#title{
+    display: block;
     text-align: center;
-    font-weight: 800;
-    font-size: 22px;
-    margin: 0px auto 200px auto;
+    position: sticky;
+    top: 0;
+    padding: 20px 0px;
+    background-color: violet;
+    z-index: 1000;
 }
+
+
 
 .card{
     max-width: 400px;
@@ -45,5 +38,42 @@ main{
 
     button{
         margin: 20px 10px 0px 0px;
+    }
+}
+
+
+
+
+@media(min-width: 1024px){
+    main{
+        display: flex;
+    }
+
+    #cart_content{
+        width: 120%;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    #totalContainer{
+        position: sticky;
+        top: 50%;
+        left: 60%;
+        transform: translate(-30%, -50%);
+        margin: 0px 0px 0px 70px;
+
+        p{
+            margin-top: 40px;
+        }
+
+        #number_of_items{
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        button{
+            margin-top: 40px;
+        }
     }
 }

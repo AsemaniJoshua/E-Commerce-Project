@@ -1,3 +1,4 @@
+// waiting for Browser to load
 async function waitingForBrowser() {
     await new Promise(resolve => {
         document.addEventListener("DOMContentLoaded", resolve);
@@ -5,6 +6,7 @@ async function waitingForBrowser() {
     console.log("Page loaded");
 }
 
+// After the Browser has loaded
 waitingForBrowser().then(() => {
     displayCartContent();
     removeItem();
@@ -16,8 +18,8 @@ console.log(customerProducts);
 
 // Getting Html Elements
 const cart_content = document.getElementById("cart_content");
-const displayTotal = document.getElementById("displayTotal");
 const total = document.getElementById("total");
+const number_of_items = document.getElementById("number_of_items");
 
 
 
@@ -32,6 +34,7 @@ function displayCartContent() {
     total.innerHTML = "Total: $0";
     let totalPrice = 0;
     let quantity = 0;
+    number_of_items.innerHTML = `Number of items: ${customerProducts.length}`;
 
 
 
@@ -96,6 +99,3 @@ function removeItem() {
 }
 
 
-
-
-    
