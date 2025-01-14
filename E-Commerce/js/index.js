@@ -1,212 +1,549 @@
-// Importing Products from product.js
-import products from './product.js';
+// localStorage.clear();
 
-// Console loging the products array
-console.log(products);
+// Getting customerProducts array from localStorage or initializing it
+let customerProducts = JSON.parse(localStorage.getItem("customerProducts")) || [];
 
-// Displaying the products when the Pages loads
+// Function to update cart count display
+function updateCartCount() {
+    // Cart Item counter
+    let cartCount = customerProducts.length;
 
-window.onload = () => {
+    // Updating cart count in stylesheet
+    let StyleSheet = document.styleSheets[0];
+    for (let i = 0; i < StyleSheet.cssRules.length; i++) {
+        let rules = StyleSheet.cssRules[i];
+        if (rules.selectorText == ".active::after") {
+            rules.style.display = "block";
+            rules.style.content = `"${cartCount}"`;
+        }
+    }
+}
 
-    // Getting a container for the products from the HTML
+// Displaying the products when the Page loads
+function displayProducts() {
     const productContainer = document.getElementById("productContainer");
 
-    // Looping through the products array and creating a new div for each product
     products.forEach(product => {
-        // Creating the Cards
-        var card = `<div class="card">
-                            <img src="${product.image}" alt="${product.name}">
-                            <h2>${product.name}</h2>
-                            <p>${product.description}</p>
-                            <p class="price">$${product.price}</p>
-                            <button class="ViewDetails" id="ViewProduct${product.id}">View Details</button>
-                            <button class="addToCart" id="AddProduct${product.id}">Add to Cart</button>
-        `;
+        const productCard = document.createElement("div");
+        productCard.classList.add("card");
 
-        productContainer.innerHTML += card;
+        const ProductImage = document.createElement("img");
+        ProductImage.src = product.image;
+        ProductImage.alt = product.name;
 
-        // Getting the view details button and Add to Cart button Ids
-        // const ViewProductId = `ViewProduct${product.id}`;
-        // const AddProductId = `AddProduct${product.id}`;
+        const ProductName = document.createElement("h2");
+        ProductName.textContent = product.name;
 
-        // const ViewProductBtn = document.getElementById(ViewProductId);
-        // const AddProductBtn = document.getElementById(AddProductId);
+        const ProductDescription = document.createElement("p");
+        ProductDescription.textContent = product.description;
 
-        // Getting view details section and container
-        // const viewDetailsSection = document.getElementById("viewDetailsSection");
-        // const viewDetailsContainer = document.getElementById("viewDetailsContainer");
+        const ProductPrice = document.createElement("p");
+        ProductPrice.textContent = `$${product.price}`;
 
-        // window[`ViewProduct${product.id}`] = ViewProductBtn;
-        // window[AddProductId] = AddProductBtn;
+        const ViewDetailsBtn = document.createElement("button");
+        ViewDetailsBtn.textContent = "View Details";
+        ViewDetailsBtn.classList.add("viewDetailsBtn");
+        ViewDetailsBtn.setAttribute("id", `ViewProduct${product.id}`);
 
-        
+        const AddToCartBtn = document.createElement("button");
+        AddToCartBtn.textContent = "Add to Cart";
+        AddToCartBtn.classList.add("addToCartBtn");
+        AddToCartBtn.setAttribute("id", `AddProduct${product.id}`);
 
+        productCard.appendChild(ProductImage);
+        productCard.appendChild(ProductName);
+        productCard.appendChild(ProductDescription);
+        productCard.appendChild(ProductPrice);
+        productCard.appendChild(ViewDetailsBtn);
+        productCard.appendChild(AddToCartBtn);
 
-
-        // ViewProductId.addEventListener("click", () => {
-        //     viewDetailsSection.style.display = "block";
-        //     viewDetailsContainer.innerHTML = `
-        //         <img src="${product.image}" alt="${product.name}">
-        //         <h2>${product.name}</h2>
-        //         <p>${product.description}</p>
-        //         <p class="price">$${product.price}</p>
-        //         <div class="BtnContainer">
-        //             <button class="addToCart" id="AddProduct1">Add to Cart</button>
-        //             <button class="closeBtn" id="closeBtn">Close</button>
-        //         </div>
-        //     `;
-        // });
-
-        
-
+        productContainer.appendChild(productCard);
     });
+}
 
+// Function to attach event listeners
+function attachEventListenersForViewDetails() {
+    products.forEach(product => {
+        const ViewProductId = `ViewProduct${product.id}`;
+        const ViewProductBtn = document.getElementById(ViewProductId);
 
-};
+        if (ViewProductBtn) {
+            ViewProductBtn.addEventListener("click", () => {
+                const viewDetailsSection = document.getElementById("viewDetailsSection");
+                const viewDetailsContainer = document.getElementById("viewDetailsContainer");
 
+                viewDetailsSection.style.display = "block";
+                viewDetailsContainer.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h2>${product.name}</h2>
+                    <p>${product.description}</p>
+                    <p class="price">$${product.price}</p>
+                    <div class="BtnContainer">
+                        <button class="addToCart" id="AddProduct${product.id}">Add to Cart</button>
+                        <button class="closeBtn" id="closeBtn">Close</button>
+                    </div>
+                `;
+            });
+        }
+    });
+}
 
 // Functionality for close button
+document.addEventListener("click", (event) => {
+    if (event.target && event.target.id === "closeBtn") {
+        const viewDetailsSection = document.getElementById("viewDetailsSection");
+        viewDetailsSection.style.display = "none";
+    }
+});
 
-        // Getting close button and adding event listener
-        // const closeBtn = document.getElementById("closeBtn");
-        // console.log(closeBtn);
-        // closeBtn.addEventListener("click", () => {
-        //     viewDetailsSection.style.display = "none";
-        // });
+// Functionality for Add to Cart button
+function addToCartEventListeners() {
+    products.forEach(product => {
+        const AddProductId = `AddProduct${product.id}`;
+        const AddProductBtn = document.getElementById(AddProductId);
+
+        if (AddProductBtn) {
+            document.addEventListener("click", (event) => {
+                if (event.target && event.target.id === `AddProduct${product.id}`) {
+                    // Adding product to cart
+                    customerProducts.push(product);
+                    // Storing customerProducts in localStorage
+                    localStorage.setItem("customerProducts", JSON.stringify(customerProducts));
+
+                    // Update cart count display
+                    updateCartCount();
+
+                    // Displaying message
+                    console.log(`Added ${product.name} to cart`);
+                    alert(`Added ${product.name} to cart`);
+                }
+            });
+        }
+    });
+}
+
+// Page load logic
+async function waitingForBrowser() {
+    await new Promise(resolve => {
+        document.addEventListener("DOMContentLoaded", resolve);
+    });
+    console.log("Page loaded");
+}
+
+waitingForBrowser().then(() => {
+    console.log("localStorage checked");
+    displayProducts();
+    attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
+    addToCartEventListeners();
+    updateCartCount(); // Update cart count display when page loads
+});
+
+// Importing Products from product.js
+import { products } from './product.js';
+
+export { customerProducts };
 
 
 
 
 
-// FUnctionalities for view details button
 
-// Looping through the products array and getting the id's of the view details buttons and Add to Cart buttons
 
-// products.forEach(product => {
-//     const ViewProductId = `ViewProduct${product.id}`;
-//     const AddProductId = `AddProduct${product.id}`;
 
-//     const ViewProductBtn = document.getElementById(ViewProductId);
-//     const AddProductBtn = document.getElementById(AddProductId);
 
-//     window[ViewProductId] = ViewProductBtn;
-//     window[AddProductId] = AddProductBtn;
 
-//     ViewProductId.addEventListener("click", () => {
-//         viewDetailsSection.style.display = "block";
-//         viewDetailsContainer.innerHTML = `
-//             <img src="${products[0].image}" alt="${products[0].name}">
-//             <h2>${products[0].name}</h2>
-//             <p>${products[0].description}</p>
-//             <p class="price">$${products[0].price}</p>
-//             <div class="BtnContainer">
-//                 <button class="addToCart" id="AddProduct1">Add to Cart</button>
-//                 <button class="closeBtn" id="closeBtn">Close</button>
-//             </div>
-//         `;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // localStorage.clear();
+// async function waitingForBrowser() {
+//     await new Promise(resolve => {
+//         document.addEventListener("DOMContentLoaded", resolve);
 //     });
+//     console.log("Page loaded");
+// }
 
+// waitingForBrowser().then(() => {
+//     // clearing the localStorage
+//     if (JSON.parse(localStorage.getItem("customerProducts"))) {
+//         console.log("localStorage is not empty");
+//         // Cart Item counter
+//         let cartCount = 0;
+//         // Displaying Number of items in cart
+//         // Incrementing cart count
+//         cartCount = JSON.parse(localStorage.getItem("customerProducts"));
+//         cartCount = cartCount.length;
+//         // Updating cart count in stylesheet
+//         let StyleSheet=document.styleSheets[0];
+//         for(let i=0;i<StyleSheet.cssRules.length;i++){
+//             let rules=StyleSheet.cssRules[i];
+//             if(rules.selectorText==".active::after"){
+//                 rules.style.display="block";
+//                 rules.style.content = `"${cartCount}"`;
+//             }
+//         }
+//     }
+//     else{
+//         console.log("localStorage is empty");
+//         localStorage.clear();
+//     }
+//     displayProducts();
+//     attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
+//     addToCartEventListeners();
 // });
 
 
+// // Importing Products from product.js
+// import {products} from './product.js';
 
-// Getting Id's of all the view details buttons
-// const ViewProduct1 = document.getElementById("ViewProduct1");
-// const ViewProduct2 = document.getElementById("ViewProduct2");
-// const ViewProduct3 = document.getElementById("ViewProduct3");
-// const ViewProduct4 = document.getElementById("ViewProduct4");
-// const ViewProduct5 = document.getElementById("ViewProduct5");
-// const ViewProduct6 = document.getElementById("ViewProduct6");
+// // Initializing customerProducts array
+// const customerProducts = [];
 
-// Adding event listeners to the view details buttons
-// ViewProduct1.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[0].image}" alt="${products[0].name}">
-//         <h2>${products[0].name}</h2>
-//         <p>${products[0].description}</p>
-//         <p class="price">$${products[0].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct1">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
-// });
+// // Console logging the products array
+// console.log(products);
 
-// ViewProduct2.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[1].image}" alt="${products[1].name}">
-//         <h2>${products[1].name}</h2>
-//         <p>${products[1].description}</p>
-//         <p class="price">$${products[1].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct2">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
-// });
+// // Displaying the products when the Page loads
+// function displayProducts() {
 
-// ViewProduct3.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[2].image}" alt="${products[2].name}">
-//         <h2>${products[2].name}</h2>
-//         <p>${products[2].description}</p>
-//         <p class="price">$${products[2].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct3">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
-// });
+//     const productContainer = document.getElementById("productContainer");
 
-// ViewProduct4.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[3].image}" alt="${products[3].name}">
-//         <h2>${products[3].name}</h2>
-//         <p>${products[3].description}</p>
-//         <p class="price">$${products[3].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct4">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
-// });
+//     products.forEach(product => {
+//         const productCard = document.createElement("div");
+//         productCard.classList.add("card");
 
-// ViewProduct5.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[4].image}" alt="${products[4].name}">
-//         <h2>${products[4].name}</h2>
-//         <p>${products[4].description}</p>
-//         <p class="price">$${products[4].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct5">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
-// });
+//         const ProductImage = document.createElement("img");
+//         ProductImage.src = product.image;
+//         ProductImage.alt = product.name;
 
-// ViewProduct6.addEventListener("click", () => {
-//     viewDetailsSection.style.display = "block";
-//     viewDetailsContainer.innerHTML = `
-//         <img src="${products[5].image}" alt="${products[5].name}">
-//         <h2>${products[5].name}</h2>
-//         <p>${products[5].description}</p>
-//         <p class="price">$${products[5].price}</p>
-//         <div class="BtnContainer">
-//             <button class="addToCart" id="AddProduct6">Add to Cart</button>
-//             <button class="closeBtn" id="closeBtn">Close</button>
-//         </div>
-//     `;
+//         const ProductName = document.createElement("h2");
+//         ProductName.textContent = product.name;
+
+//         const ProductDescription = document.createElement("p");
+//         ProductDescription.textContent = product.description;
+
+//         const ProductPrice = document.createElement("p");
+//         ProductPrice.textContent = `$${product.price}`;
+
+//         const ViewDetailsBtn = document.createElement("button");
+//         ViewDetailsBtn.textContent = "View Details";
+//         ViewDetailsBtn.classList.add("viewDetailsBtn");
+//         ViewDetailsBtn.setAttribute("id", `ViewProduct${product.id}`);
+
+//         const AddToCartBtn = document.createElement("button");
+//         AddToCartBtn.textContent = "Add to Cart";
+//         AddToCartBtn.classList.add("addToCartBtn");
+//         AddToCartBtn.setAttribute("id", `AddProduct${product.id}`);
+
+//         productCard.appendChild(ProductImage);
+//         productCard.appendChild(ProductName);
+//         productCard.appendChild(ProductDescription);
+//         productCard.appendChild(ProductPrice);
+//         productCard.appendChild(ViewDetailsBtn);
+//         productCard.appendChild(AddToCartBtn);
+
+//         productContainer.appendChild(productCard);
+//     });
+// }
+
+// // Function to attach event listeners
+// function attachEventListenersForViewDetails() {
+//     products.forEach(product => {
+//         const ViewProductId = `ViewProduct${product.id}`;
+//         const ViewProductBtn = document.getElementById(ViewProductId);
+
+//         if (ViewProductBtn) {
+//             ViewProductBtn.addEventListener("click", () => {
+//                 const viewDetailsSection = document.getElementById("viewDetailsSection");
+//                 const viewDetailsContainer = document.getElementById("viewDetailsContainer");
+
+//                 viewDetailsSection.style.display = "block";
+//                 viewDetailsContainer.innerHTML = `
+//                     <img src="${product.image}" alt="${product.name}">
+//                     <h2>${product.name}</h2>
+//                     <p>${product.description}</p>
+//                     <p class="price">$${product.price}</p>
+//                     <div class="BtnContainer">
+//                         <button class="addToCart" id="AddProduct${product.id}">Add to Cart</button>
+//                         <button class="closeBtn" id="closeBtn">Close</button>
+//                     </div>
+//                 `;
+//             });
+//         }
+//     });
+// }
+
+// // Functionality for close button
+// document.addEventListener("click", (event) => {
+//     if (event.target && event.target.id === "closeBtn") {
+//         const viewDetailsSection = document.getElementById("viewDetailsSection");
+//         viewDetailsSection.style.display = "none";
+//     }
 // });
 
 
+// // Functionality for Add to Cart button
 
 
+// function addToCartEventListeners() {
+//     products.forEach(product => {
+//         const AddProductId = `AddProduct${product.id}`;
+//         const AddProductBtn = document.getElementById(AddProductId);
+
+//         if (AddProductBtn) {
+//             document.addEventListener("click", (event) => {
+//                 if(event.target && event.target.id === `AddProduct${product.id}`){
+                    
+
+//                     // Adding product to cart
+//                     customerProducts.push(product);
+//                     // Storing customerProducts in localStorage
+//                     localStorage.setItem("customerProducts", JSON.stringify(customerProducts));
+
+//                     // Cart Item counter
+//                     let cartCount = 0;
+
+//                     // Incrementing cart count
+//                     cartCount = JSON.parse(localStorage.getItem("customerProducts"));
+//                     cartCount = cartCount.length;
+
+//                     // Updating cart count in stylesheet
+//                     let StyleSheet=document.styleSheets[0];
+//                     for(let i=0;i<StyleSheet.cssRules.length;i++){
+//                         let rules=StyleSheet.cssRules[i];
+//                         if(rules.selectorText==".active::after"){
+//                             rules.style.display="block";
+//                             rules.style.content = `"${cartCount}"`;
+//                         }
+//                     }
+
+//                     // console.log(localStorage.getItem("customerProducts"));
+//                     console.log(JSON.parse(localStorage.getItem("customerProducts")));
+//                     // console.log(customerProducts);
+
+//                     // Displaying message
+//                     console.log(`Added ${product.name} to cart`);
+//                     alert(`Added ${product.name} to cart`);
+//                 }
+//             });
+//         }
+//     });
+// }
 
 
-
+// export {customerProducts};
 
