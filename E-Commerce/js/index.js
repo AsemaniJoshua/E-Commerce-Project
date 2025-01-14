@@ -150,6 +150,7 @@ function handleSearch() {
                         <img src="${product.image}" alt="${product.name}">
                         <div class="cart_item_details">
                             <h3>${product.name}</h3>
+                            <p>${product.description}</p>
                             <p>Price: $${product.price}</p>
                         </div>
                         <div>
