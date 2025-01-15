@@ -115,7 +115,9 @@ function addToCartEventListeners() {
 
                     // Displaying message
                     console.log(`Added ${product.name} to cart`);
-                    alert(`Added ${product.name} to cart`);
+                    // alert(`Added ${product.name} to cart`);
+                    // Displaying Toast Notification
+                    showToast();
                 }
             });
         }
@@ -124,7 +126,12 @@ function addToCartEventListeners() {
 
 
 
-
+// Functionality for Toast Notification
+function showToast() { 
+    const toast = document.getElementById("toast"); 
+    toast.className = "toast show"; 
+    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
+}
 
 
 

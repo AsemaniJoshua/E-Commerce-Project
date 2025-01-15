@@ -8,8 +8,11 @@
 header{
     display: flex;
     justify-content: space-between;
-    margin: 30px 0px;
-    position: relative;
+    margin: 0px 0px 30px 0px;
+    padding: 10px 0px 20px 20px;
+    position: sticky;
+    top: 0;
+    background-color: violet;
 
     #search_btn{
         position: relative;
@@ -50,7 +53,7 @@ header button{
     background-color: red;
     color: white;
     text-align: center;
-    top: -15px;
+    top: 2px;
     right: 10px;
     display: none;
 }
@@ -122,6 +125,50 @@ header button{
     margin-left: 10px;
 }
 
+
+
+/* Toast Notification style */
+.toast { 
+    visibility: hidden; 
+    min-width: 250px; 
+    margin-left: -125px; 
+    background-color: #333; 
+    color: #fff; 
+    text-align: center; 
+    border-radius: 5px; 
+    padding: 16px; 
+    position: fixed; 
+    z-index: 1; 
+    left: 50%; 
+    bottom: 30px; 
+    font-size: 17px; 
+} 
+
+.toast.show { 
+    visibility: visible; 
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 3s; 
+    animation: fadein 0.5s, fadeout 0.5s 3s; 
+} 
+
+@-webkit-keyframes fadein { 
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;} 
+} 
+
+@keyframes fadein { 
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;} 
+} 
+
+@-webkit-keyframes fadeout { 
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;} 
+} 
+
+@keyframes fadeout { 
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;} 
+}
 
 
 

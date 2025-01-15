@@ -10,6 +10,7 @@ async function waitingForBrowser() {
 waitingForBrowser().then(() => {
     displayCartContent();
     removeItem();
+    checkout();
 });
 
 // Getting customerProducts array from localStorage
@@ -91,11 +92,39 @@ function removeItem() {
                 customerProducts.splice(productIndex, 1); 
                 localStorage.setItem("customerProducts", JSON.stringify(customerProducts)); 
                 console.log(`Product removed from cart.`); 
-                alert(`Product removed from cart.`); 
+                // alert(`Product removed from cart.`);
+                // Displaying Toast Notification
+                showToast(); 
                 displayCartContent(); 
             } 
         } 
     });
 }
 
+
+
+// Functionality for Toast Notification
+function showToast() { 
+    const toast = document.getElementById("toast"); 
+    toast.className = "toast show"; 
+    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
+}
+
+// Functionality for Checkout Button
+function checkout() {
+    const checkoutForm = document.getElementById("checkoutForm");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const closeCheckoutForm = document.getElementById("closeCheckoutForm");
+
+    // Adding event listener to checkout button
+    checkoutBtn.addEventListener("click", () => {
+        checkoutForm.style.display = "block";
+    });
+
+    // Adding event listener to close checkout form
+    closeCheckoutForm.addEventListener("click", () => {
+        checkoutForm.style.display = "none";
+    });
+    
+}
 
