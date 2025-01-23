@@ -19,6 +19,9 @@ header{
         top: 7px;
         margin-left: 10px;
         padding: 0px 10px;
+        margin-right: 20px;
+        font-size: 28px;
+        margin-bottom: 5px;
     }
 }
 
@@ -31,7 +34,7 @@ header input{
     text-align: center;
 }
 
-header button{
+header sl-icon{
     margin-right: 20px;
     font-size: 28px;
     margin-bottom: 5px;
@@ -138,7 +141,7 @@ header button{
     border-radius: 5px; 
     padding: 16px; 
     position: fixed; 
-    z-index: 1; 
+    z-index: 1001; 
     left: 50%; 
     bottom: 30px; 
     font-size: 17px; 
@@ -182,7 +185,8 @@ header button{
         flex-wrap: wrap;
     }
     .card{
-        min-width: 400px;
+        max-width: 400px;
+        min-width: 350px;
 
         img{
             width: 100%;
