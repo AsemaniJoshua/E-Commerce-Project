@@ -4,8 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E - Commerce</title>
+
+  <!-- Css Link -->
+  <link rel="stylesheet" href="styles/HomePageStyles/Header.css">
+  <link rel="stylesheet" href="styles/HomePageStyles/HeroSection.css">
+
+  <!-- Shoelace CDN style and script -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/light.css" />
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/shoelace.js" ></script>
+
 </head>
 <body>
+
+  <!-- Header Section with Navbar -->
+  <header>
+    <h1>Logo</h1>
+
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="Header_Division3">
+      <!-- Search Bar -->
+      <div class="Search_Bar">
+        <input type="search" placeholder="Search for items">
+        <button>Search</button>
+      </div>
+
+      <!-- Cart Icon -->
+      <div class="Cart_Icon">
+        <sl-icon name="cart4"></sl-icon>
+      </div>
+    </div>
+
+  </header>
+
+
+
+  <!-- Hero Section -->
+  <section class="Hero_Section">
+
+    <!-- Hero Content -->
+    <div class="Hero_Content">
+      <h1>Shop with us</h1>
+      <p>Get the best deals on our products</p>
+      <button>Shop Now</button>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="Hero_Image">
+      <img src="images/hero-image.jpg" alt="Hero Image">
+    </div>
+
+  </section>
   
 </body>
 </html>
