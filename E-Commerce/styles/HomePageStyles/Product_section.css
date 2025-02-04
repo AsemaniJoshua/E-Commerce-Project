@@ -1,0 +1,67 @@
+
+
+
+
+
+@media (min-width: 1024px) {
+    
+    .Product_Section{
+        margin: 50px 0px 80px 0px;
+        padding: 40px;
+        background-color: rgba(226, 226, 226, 0.356);
+
+        h2{
+            font-size: 26px;
+            font-style: italic;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .search_by_category{
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 500;
+
+            select{
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 17px;
+                font-weight: 500;
+                text-align: center;
+            }
+
+
+        }
+
+
+        #productContainer{
+
+
+            a{
+                text-decoration: none;
+                margin-left: 85%;
+                
+                button{
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 17px;
+                    font-weight: 500;
+                    background-color: #ff00c8e0;
+                    color: white;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin-top: 30px;
+                    
+
+                    &:hover{
+                        background-color: white;
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}
