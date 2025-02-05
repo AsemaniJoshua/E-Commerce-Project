@@ -207,13 +207,14 @@ waitingForBrowser().then(() => {
     displayProducts();
     attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
     addToCartEventListeners();
-    updateCartCount(); // Update cart count display when page loads
+    // updateCartCount(); // Update cart count display when page loads
     handleSearch();
 });
 
 // Importing Products from product.js
 import { products } from './product.js';
 
+// Exporting customerProducts
 export { customerProducts };
 
 
