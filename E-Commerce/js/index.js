@@ -26,9 +26,9 @@ function updateCartCount() {
 
 // Displaying the products when the Page loads
 function displayProducts() {
-    const productContainer = document.getElementById("productContainer");
+    const productContainer = document.getElementById("productCardContainer");
 
-    products.forEach(product => {
+    ActualProducts.forEach(product => {
         const productCard = document.createElement("div");
         productCard.classList.add("card");
 
@@ -68,7 +68,7 @@ function displayProducts() {
 
 // Function to attach event listeners
 function attachEventListenersForViewDetails() {
-    products.forEach(product => {
+    ActualProducts.forEach(product => {
         const ViewProductId = `ViewProduct${product.id}`;
         const ViewProductBtn = document.getElementById(ViewProductId);
 
@@ -103,7 +103,7 @@ document.addEventListener("click", (event) => {
 
 // Functionality for Add to Cart button
 function addToCartEventListeners() {
-    products.forEach(product => {
+    ActualProducts.forEach(product => {
         const AddProductId = `AddProduct${product.id}`;
         const AddProductBtn = document.getElementById(AddProductId);
 
@@ -157,7 +157,8 @@ function handleSearch() {
 
     searchBtn.addEventListener("click", () => {
         const searchTerm = searchInput.value.toLowerCase();
-        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm));
+        const filteredProducts = ActualProducts.filter(product => product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm));
+        
         productContainer.innerHTML = "";
         
         // checking if filteredProducts is empty
@@ -205,14 +206,14 @@ async function waitingForBrowser() {
 waitingForBrowser().then(() => {
     console.log("localStorage checked");
     displayProducts();
-    attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
-    addToCartEventListeners();
+    // attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
+    // addToCartEventListeners();
     // updateCartCount(); // Update cart count display when page loads
-    handleSearch();
+    // handleSearch();
 });
 
 // Importing Products from product.js
-import { products } from './product.js';
+import { ActualProducts } from './product.js';
 
 // Exporting customerProducts
 export { customerProducts };
