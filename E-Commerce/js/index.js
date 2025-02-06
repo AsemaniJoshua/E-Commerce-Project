@@ -45,6 +45,9 @@ function displayProducts() {
         const ProductPrice = document.createElement("p");
         ProductPrice.textContent = `$${product.price}`;
 
+        // const BtnContainer = document.createElement("div");
+        // BtnContainer.classList.add("BtnContainer")
+
         const ViewDetailsBtn = document.createElement("button");
         ViewDetailsBtn.textContent = "View Details";
         ViewDetailsBtn.classList.add("viewDetailsBtn");
@@ -53,6 +56,7 @@ function displayProducts() {
         const AddToCartBtn = document.createElement("button");
         AddToCartBtn.textContent = "Add to Cart";
         AddToCartBtn.classList.add("addToCartBtn");
+        AddToCartBtn.classList.add("addToCart");
         AddToCartBtn.setAttribute("id", `AddProduct${product.id}`);
 
         productCard.appendChild(ProductImage);
@@ -60,7 +64,8 @@ function displayProducts() {
         productCard.appendChild(ProductDescription);
         productCard.appendChild(ProductPrice);
         productCard.appendChild(ViewDetailsBtn);
-        productCard.appendChild(AddToCartBtn);
+        productCard.appendChild(AddToCartBtn)
+        // productCard.appendChild(BtnContainer);
 
         productContainer.appendChild(productCard);
     });
@@ -72,8 +77,10 @@ function attachEventListenersForViewDetails() {
         const ViewProductId = `ViewProduct${product.id}`;
         const ViewProductBtn = document.getElementById(ViewProductId);
 
+        // Checking if the button is there or not
         if (ViewProductBtn) {
             ViewProductBtn.addEventListener("click", () => {
+                // Calling the viewDetailsSection and viewDetailsContainer
                 const viewDetailsSection = document.getElementById("viewDetailsSection");
                 const viewDetailsContainer = document.getElementById("viewDetailsContainer");
 
@@ -92,6 +99,8 @@ function attachEventListenersForViewDetails() {
         }
     });
 }
+
+
 
 // Functionality for close button
 document.addEventListener("click", (event) => {
@@ -129,8 +138,8 @@ function addToCartEventListeners() {
                     // Displaying message
                     console.log(`Added ${product.name} to cart`);
                     // alert(`Added ${product.name} to cart`);
-                    // Displaying Toast Notification
-                    showToast();
+                    
+
                 }
             });
         }
@@ -139,12 +148,12 @@ function addToCartEventListeners() {
 
 
 
-// Functionality for Toast Notification
-function showToast() { 
-    const toast = document.getElementById("toast"); 
-    toast.className = "toast show"; 
-    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
-}
+// // Functionality for Toast Notification
+// function showToast() { 
+//     const toast = document.getElementById("toast"); 
+//     toast.className = "toast show"; 
+//     setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
+// }
 
 
 
@@ -206,8 +215,8 @@ async function waitingForBrowser() {
 waitingForBrowser().then(() => {
     console.log("localStorage checked");
     displayProducts();
-    // attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
-    // addToCartEventListeners();
+    attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
+    addToCartEventListeners();
     // updateCartCount(); // Update cart count display when page loads
     // handleSearch();
 });
