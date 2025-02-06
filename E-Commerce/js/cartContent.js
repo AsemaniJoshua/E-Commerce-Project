@@ -23,6 +23,10 @@ const total = document.getElementById("total");
 const number_of_items = document.getElementById("number_of_items");
 
 
+// Calculating total price
+function calculateTotalPrice() {
+    return customerProducts.reduce((total, product) => total + product.quantity * product.price, 0);
+}
 
 
 // Function to display cart content
@@ -33,9 +37,11 @@ function displayCartContent() {
 
     // Setting total and quantity to 0
     total.innerHTML = "Total: $0";
-    let totalPrice = 0;
-    let quantity = 0;
-    number_of_items.innerHTML = `Number of items: ${customerProducts.length}`;
+    let totalPrice = calculateTotalPrice();
+
+    // Displaying number of items
+    // number_of_items.innerHTML = `Number of items: ${customerProducts.length}`;
+    number_of_items.innerHTML = `Number of items: ${customerProducts.reduce((total, product) => total + product.quantity, 0)}`;
 
 
 
@@ -49,13 +55,14 @@ function displayCartContent() {
                 <div class="cart_item_details">
                     <h3>${product.name}</h3>
                     <p>Price: $${product.price}</p>
+                    <p>Quantity: ${product.quantity}</p>
                     <button class="remove_btn" id="removeProduct${index}" data-id="${index}">Remove</button>
                 </div>
             </div>
         `;
 
-        // Adding price to total
-        totalPrice += product.price;
+        // // Adding price to total
+        // totalPrice += product.price;
     });
 
     // Displaying total
@@ -86,15 +93,20 @@ function displayCartContent() {
 function removeItem() { 
     cart_content.addEventListener("click", (event) => { 
         if (event.target && event.target.classList.contains("remove_btn")) { 
-            const productIndex = event.target.getAttribute("data-id"); 
-            if (productIndex !== null) { 
-                // Removing product from customerProducts array 
-                customerProducts.splice(productIndex, 1); 
+            const productIndex1 = event.target.getAttribute("data-id"); 
+            const productIndex2 = customerProducts.findIndex(p => p.id == productIndex1);
+            if (productIndex2 !== -1) {
+                if (customerProducts[productIndex2].quantity > 1) {
+                    customerProducts[productIndex2].quantity -= 1;
+                } 
+                else {
+                    customerProducts.splice(productIndex2, 1);
+                }
                 localStorage.setItem("customerProducts", JSON.stringify(customerProducts)); 
                 console.log(`Product removed from cart.`); 
                 // alert(`Product removed from cart.`);
                 // Displaying Toast Notification
-                showToast(); 
+                showToast2(); 
                 displayCartContent(); 
             } 
         } 
@@ -103,9 +115,16 @@ function removeItem() {
 
 
 
+// // Functionality for Toast Notification
+// function showToast() { 
+//     const toast = document.getElementById("toast"); 
+//     toast.className = "toast show"; 
+//     setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
+// }
+
 // Functionality for Toast Notification
-function showToast() { 
-    const toast = document.getElementById("toast"); 
+function showToast2() { 
+    const toast = document.getElementById("toast2"); 
     toast.className = "toast show"; 
     setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
 }

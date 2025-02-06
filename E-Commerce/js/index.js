@@ -6,7 +6,12 @@ let customerProducts = JSON.parse(localStorage.getItem("customerProducts")) || [
 // Function to update cart count display
 function updateCartCount() {
     // Cart Item counter
-    let cartCount = customerProducts.length;
+    let cartCount = 0;
+
+    // Looping through customerProducts array
+    customerProducts.forEach(product => {
+        cartCount += product.quantity;
+    });
 
     // Updating cart count in stylesheet
     let StyleSheet = document.styleSheets[0];
@@ -105,8 +110,16 @@ function addToCartEventListeners() {
         if (AddProductBtn) {
             document.addEventListener("click", (event) => {
                 if (event.target && event.target.id === `AddProduct${product.id}`) {
-                    // Adding product to cart
-                    customerProducts.push(product);
+                    // Check if product is already in the cart
+                    const existingProduct = customerProducts.find(p => p.id === product.id);
+
+                    if (existingProduct) {
+                        // Increase quantity
+                        existingProduct.quantity += 1;
+                    } else {
+                        // Add product with quantity 1
+                        customerProducts.push({ ...product, quantity: 1 });
+                    }
                     // Storing customerProducts in localStorage
                     localStorage.setItem("customerProducts", JSON.stringify(customerProducts));
 
@@ -194,13 +207,14 @@ waitingForBrowser().then(() => {
     displayProducts();
     attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
     addToCartEventListeners();
-    updateCartCount(); // Update cart count display when page loads
+    // updateCartCount(); // Update cart count display when page loads
     handleSearch();
 });
 
 // Importing Products from product.js
 import { products } from './product.js';
 
+// Exporting customerProducts
 export { customerProducts };
 
 
