@@ -138,7 +138,9 @@ function addToCartEventListeners() {
                     // Displaying message
                     console.log(`Added ${product.name} to cart`);
                     // alert(`Added ${product.name} to cart`);
-                    
+
+                    // Showing toast
+                    showToast(); 
 
                 }
             });
@@ -148,12 +150,12 @@ function addToCartEventListeners() {
 
 
 
-// // Functionality for Toast Notification
-// function showToast() { 
-//     const toast = document.getElementById("toast"); 
-//     toast.className = "toast show"; 
-//     setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
-// }
+// Functionality for Toast Notification
+function showToast() { 
+    const toast = document.getElementById("toast"); 
+    toast.className = "toast show"; 
+    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000); 
+}
 
 
 
@@ -162,11 +164,11 @@ function addToCartEventListeners() {
 function handleSearch() {
     const searchInput = document.getElementById("search_bar");
     const searchBtn = document.getElementById("search_btn");
-    const productContainer = document.getElementById("productContainer");
+    const productContainer = document.getElementById("productCardContainer");
 
-    searchBtn.addEventListener("click", () => {
+    searchInput.addEventListener("keyup", () => {
         const searchTerm = searchInput.value.toLowerCase();
-        const filteredProducts = ActualProducts.filter(product => product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm));
+        const filteredProducts = ActualProducts.filter(product => product.name.toLowerCase().includes(searchTerm));
         
         productContainer.innerHTML = "";
         
@@ -204,6 +206,12 @@ function handleSearch() {
 }
 
 
+// Adding eventlistener to cart icon
+document.getElementById("cart_icon").addEventListener("click", () => {
+    window.location.href = "cart.html";
+});
+
+
 // Page load logic
 async function waitingForBrowser() {
     await new Promise(resolve => {
@@ -218,7 +226,7 @@ waitingForBrowser().then(() => {
     attachEventListenersForViewDetails(); // Attach event listeners after products are displayed
     addToCartEventListeners();
     // updateCartCount(); // Update cart count display when page loads
-    // handleSearch();
+    handleSearch();
 });
 
 // Importing Products from product.js

@@ -1,8 +1,8 @@
 .active::after{
     content: "0";
     position: absolute;
-    width: 35px;
-    height: 40px;
+    width: 40px;
+    height: 30px;
     border-radius: 50%;
     background-color: red;
     color: white;
@@ -10,4 +10,8 @@
     top: 2px;
     display: none;
     margin-left: 12px;
+    margin-top: 5px;
+    font-size: 23px;
+    font-weight: 700;
+    text-align: center;
 }

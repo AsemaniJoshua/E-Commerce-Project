@@ -11,6 +11,7 @@ waitingForBrowser().then(() => {
     displayCartContent();
     removeItem();
     checkout();
+    handleSearch();
 });
 
 // Getting customerProducts array from localStorage
@@ -18,7 +19,7 @@ const customerProducts = JSON.parse(localStorage.getItem("customerProducts"));
 console.log(customerProducts);
 
 // Getting Html Elements
-const cart_content = document.getElementById("cart_content");
+const cart_container = document.getElementById("cart_container");
 const total = document.getElementById("total");
 const number_of_items = document.getElementById("number_of_items");
 
@@ -33,7 +34,7 @@ function calculateTotalPrice() {
 function displayCartContent() {
     
     // Clearing previous content
-    cart_content.innerHTML = "";
+    cart_container.innerHTML = "";
 
     // Setting total and quantity to 0
     total.innerHTML = "Total: $0";
@@ -49,7 +50,7 @@ function displayCartContent() {
     customerProducts.forEach( (product, index) => {
         
         // Creating a new div element for each product
-        cart_content.innerHTML += `
+        cart_container.innerHTML += `
             <div class="card">
                 <img src="${product.image}" alt="${product.name}">
                 <div class="cart_item_details">
@@ -91,7 +92,7 @@ function displayCartContent() {
 
 // Functionality for removeProductBtn 
 function removeItem() { 
-    cart_content.addEventListener("click", (event) => { 
+    cart_container.addEventListener("click", (event) => { 
         if (event.target && event.target.classList.contains("remove_btn")) { 
             const productIndex1 = event.target.getAttribute("data-id"); 
             const productIndex2 = customerProducts.findIndex(p => p.id == productIndex1);
@@ -145,5 +146,41 @@ function checkout() {
         checkoutForm.style.display = "none";
     });
     
+}
+
+
+
+// Function to handle the search functionality
+function handleSearch() {
+    const searchInput = document.getElementById("search_bar");
+    const searchBtn = document.getElementById("search_btn");
+    const productContainer = document.getElementById("cart_container");
+
+    searchInput.addEventListener("keyup", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredProducts = customerProducts.filter(product => product.name.toLowerCase().includes(searchTerm));
+        
+        productContainer.innerHTML = "";
+        
+        // checking if filteredProducts is empty
+        if (filteredProducts.length === 0) {
+            productContainer.innerHTML = "<p style='margin: auto; font-size: 24px; font-weight: bold;'>No products found.</p>";
+        } else {
+            filteredProducts.forEach( (product, index) => {
+                productContainer.innerHTML += `
+                    <div class="card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="cart_item_details">
+                            <h3>${product.name}</h3>
+                            <p>Price: $${product.price}</p>
+                            <p>Quantity: ${product.quantity}</p>
+                            <button class="remove_btn" id="removeProduct${index}" data-id="${index}">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+    });
 }
 

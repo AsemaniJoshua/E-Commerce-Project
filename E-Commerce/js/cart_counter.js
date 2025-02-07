@@ -24,6 +24,12 @@ function updateCartCount() {
     }
 }
 
+// Adding eventlistener to cart icon
+document.getElementById("cart_icon").addEventListener("click", () => {
+    window.location.href = "cart.html";
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
     updateCartCount();
 });
