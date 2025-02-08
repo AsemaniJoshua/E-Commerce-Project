@@ -227,7 +227,51 @@ waitingForBrowser().then(() => {
     addToCartEventListeners();
     // updateCartCount(); // Update cart count display when page loads
     handleSearch();
+    handleCategory();
 });
+
+// Functionalities for categories
+function handleCategory(){
+    const categories = document.getElementById("category").value;
+    const productContainer = document.getElementById("productCardContainer");
+
+    productContainer.innerHTML = "";
+
+    // Filtering for selected category
+    const filteredProducts = ActualProducts.filter(product => categories === "All" || product.category === categories);
+    
+    // Displaying filtered products
+    filteredProducts.forEach(product => {
+        productContainer.innerHTML += `
+            <div class="card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="cart_item_details">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <p>Price: $${product.price}</p>
+                        </div>
+                        <div>
+                            <button class="viewDetailsBtn" id="ViewProduct${product.id}">View Details</button>
+                            <button class="addToCartBtn" id="AddProduct${product.id}">Add to Cart</button>                            
+                        </div>
+                    </div>
+        `;
+
+    });
+
+    attachEventListenersForViewDetails();
+    // Functionality for close button
+    document.addEventListener("click", (event) => {
+        if (event.target && event.target.id === "closeBtn") {
+            const viewDetailsSection = document.getElementById("viewDetailsSection");
+            viewDetailsSection.style.display = "none";
+        }
+    });
+    
+}
+
+// Adding event listener to category dropdown
+document.getElementById("category").addEventListener("change", handleCategory);
 
 // Importing Products from product.js
 import { ActualProducts } from './product.js';
