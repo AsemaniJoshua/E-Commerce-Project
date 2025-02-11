@@ -6,6 +6,7 @@
   <title>E - Commerce</title>
 
   <!-- Css Link -->
+  <link rel="stylesheet" href="styles/cart_style.css">
   <link rel="stylesheet" href="styles/HomePageStyles/Header.css">
   <link rel="stylesheet" href="styles/HomePageStyles/HeroSection.css">
   <link rel="stylesheet" href="styles/HomePageStyles/Product_section.css">
@@ -37,13 +38,13 @@
     <div class="Header_Division3">
       <!-- Search Bar -->
       <div class="Search_Bar">
-        <input type="search" placeholder="Search for items">
-        <button>Search</button>
+        <input type="search" id="search_bar" placeholder="Search for items">
+        <button id="search_btn">Search</button>
       </div>
 
       <!-- Cart Icon -->
       <div class="Cart_Icon">
-        <sl-icon name="cart4"></sl-icon>
+        <sl-icon name="cart4" id="cart_icon" class="cart_icon active"></sl-icon>
       </div>
     </div>
 
@@ -58,7 +59,7 @@
     <div class="Hero_Content">
       <h1>Shop with us</h1>
       <p>Get the best deals on our products</p>
-      <a href="#"><button>Shop Now</button></a>
+      <a href="Products.html"><button>Shop Now</button></a>
     </div>
 
     <!-- Hero Image -->
@@ -123,13 +124,21 @@
     <a id="viewAllProducts" href="Products.html"><button>View all Products</button></a>
    </div>
 
-   <!-- View Details Container -->
-   <div id="viewDetailsContainer">
-      
-   </div>
-
 
 </section>
+
+
+
+  <!-- View Details Container -->
+  <section id="viewDetailsSection">
+    <div id="viewDetailsContainer">
+      
+    </div>
+  </section>
+
+
+  <!-- Toast notification HTML --> 
+  <div id="toast" class="toast">Item added to cart</div>
 
 
 <!-- Testimonial Section -->
@@ -240,5 +249,6 @@
   <!-- JavaScript -->
   <script src="js/ui.js"></script>
   <script type="module" src="./js/display_home_products.js"></script>
+  <script src="./js/cart_counter.js"></script>
 </body>
 </html>
