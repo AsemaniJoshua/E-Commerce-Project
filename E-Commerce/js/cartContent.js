@@ -194,7 +194,7 @@ function handleCategory(){
     productContainer.innerHTML = "";
 
     // Filtering for selected category
-    const filteredProducts = ActualProducts.filter(product => categories === "All" || product.category === categories);
+    const filteredProducts = customerProducts.filter(product => categories === "All" || product.category === categories);
     
     // Displaying filtered products
     filteredProducts.forEach(product => {

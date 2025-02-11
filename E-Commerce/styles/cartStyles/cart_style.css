@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+/* 
 #main_section{
     display: flex;
     flex-direction: column;
@@ -149,7 +149,7 @@
     }
 
 
-}
+} */
 
 /* Toast Notification style */
 .toast { 

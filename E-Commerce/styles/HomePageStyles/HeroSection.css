@@ -10,8 +10,7 @@
     color: #ffffff;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    justify-content: center;
-    align-items: center;
+    display: block;
     position: relative;
 
     .Hero_Content{
@@ -64,7 +63,7 @@
 
 
     sl-split-panel{
-        display: block;
+        display: flex;
         order: 2;
         
 

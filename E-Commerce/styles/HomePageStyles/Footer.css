@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+@media (max-width: 1023px){
+
+    .footer_content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
 
 .footer{
     padding: 40px;
@@ -13,9 +21,8 @@
 
     .footer_content{
         display: flex;
-        flex-direction: column;
+        /* flex-direction: column; */
         justify-content: space-between;
-        align-items: center;
         padding: 60px;
 
         .footer_content1{
